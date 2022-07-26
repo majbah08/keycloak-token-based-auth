@@ -20,7 +20,7 @@ public class IEIMSAuthenticatorFactory implements AuthenticatorFactory,
     private static final IEIMSAuthenticator SINGLETON = new IEIMSAuthenticator();
 
     @Override public String getDisplayType() {
-        return null;
+        return "IEIMS Authenticator";
     }
 
     @Override public String getReferenceCategory() {
@@ -28,15 +28,15 @@ public class IEIMSAuthenticatorFactory implements AuthenticatorFactory,
     }
 
     @Override public boolean isConfigurable() {
-        return false;
+        return true;
     }
 
     @Override public AuthenticationExecutionModel.Requirement[] getRequirementChoices() {
-        return new AuthenticationExecutionModel.Requirement[0];
+        return new AuthenticationExecutionModel.Requirement[]{ AuthenticationExecutionModel.Requirement.REQUIRED };
     }
 
     @Override public boolean isUserSetupAllowed() {
-        return false;
+        return true;
     }
 
     @Override public String getHelpText() {
