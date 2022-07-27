@@ -16,6 +16,7 @@ import org.keycloak.models.UserCredentialManager;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserManager;
 import org.keycloak.models.UserModel;
+import org.keycloak.models.UserSessionModel;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.sessions.AuthenticationSessionModel;
 import org.keycloak.storage.UserStorageManager;
@@ -47,9 +48,10 @@ import java.util.List;
         UserModel userModel = null;
         if (!userName.isBlank()) {
             log.error("user name provided");
-            userModel =
-                    KeycloakModelUtils.findUserByNameOrEmail(authenticationFlowContext.getSession(),
-                            authenticationFlowContext.getRealm(), userName);
+//            userModel =
+//                    KeycloakModelUtils.findUserByNameOrEmail(authenticationFlowContext.getSession(),
+//                            authenticationFlowContext.getRealm(), userName);
+            userModel = authenticationFlowContext.getSession().users().getUserByUsername(authenticationFlowContext.getRealm(), userName);
         }
         KeycloakSession session = authenticationFlowContext.getSession();
         RealmModel realm = authenticationFlowContext.getRealm();
@@ -61,7 +63,7 @@ import java.util.List;
             user.setUsername(userName);
 
             authenticationFlowContext.setUser(user);
-
+            authenticationFlowContext.getAuthenticationSession().setAuthenticatedUser(user);
             authenticationFlowContext.getEvent().user(user);
             authenticationFlowContext.getEvent().success();
             authenticationFlowContext.newEvent().event(EventType.LOGIN);
@@ -79,8 +81,12 @@ import java.util.List;
                 authenticationFlowContext.getEvent().detail(Details.AUTH_TYPE, authType);
             }
 
+        }else {
+
+            authenticationFlowContext.getAuthenticationSession().setAuthenticatedUser(userModel);
         }
         authenticationFlowContext.success();
+
     }
 
     @Override public void action(AuthenticationFlowContext authenticationFlowContext) {
