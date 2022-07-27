@@ -37,9 +37,7 @@ import java.util.List;
 @Slf4j public class IEIMSAuthenticator implements Authenticator {
 
     @Override public void authenticate(AuthenticationFlowContext authenticationFlowContext) {
-        log.error("Ok lets goooo ");
         if (!hasValidJwt(authenticationFlowContext)) {
-            log.error("Invalid token");
             authenticationFlowContext.failure(AuthenticationFlowError.ACCESS_DENIED);
             return;
         }
@@ -47,17 +45,13 @@ import java.util.List;
         String userName = retrieveQueryParameter(authenticationFlowContext, "user_name");
         UserModel userModel = null;
         if (!userName.isBlank()) {
-            log.error("user name provided");
-//            userModel =
-//                    KeycloakModelUtils.findUserByNameOrEmail(authenticationFlowContext.getSession(),
-//                            authenticationFlowContext.getRealm(), userName);
             userModel = authenticationFlowContext.getSession().users().getUserByUsername(authenticationFlowContext.getRealm(), userName);
         }
         KeycloakSession session = authenticationFlowContext.getSession();
         RealmModel realm = authenticationFlowContext.getRealm();
 
         if (userModel == null || userModel.getUsername() == null) {
-            log.info("user found in realm");
+            log.info("user not found in realm");
             UserModel user = session.users().addUser(realm, userName);
             user.setEnabled(true);
             user.setUsername(userName);
@@ -82,7 +76,7 @@ import java.util.List;
             }
 
         }else {
-
+            log.info("user found in realm");
             authenticationFlowContext.getAuthenticationSession().setAuthenticatedUser(userModel);
         }
         authenticationFlowContext.success();
@@ -122,7 +116,6 @@ import java.util.List;
     protected boolean hasValidJwt(AuthenticationFlowContext context) {
 
         String jwt = retrieveQueryParameter(context, "auth_token");
-        log.error("user jwt provided :- "+jwt);
 
         boolean result = jwt != null;
         if (result) {
@@ -134,14 +127,12 @@ import java.util.List;
                 log.error("auth ok");
                 result = true;
             }
-
         }
 
         return result;
     }
 
     protected String retrieveQueryParameter(AuthenticationFlowContext context, String param) {
-        log.error("parameter "+param);
         MultivaluedMap<String, String> inputData =
                 context.getUriInfo().getQueryParameters();
         String value = inputData.getFirst(param);
