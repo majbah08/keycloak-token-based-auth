@@ -9,7 +9,7 @@
         <version>2.3.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.dsi.ieims.sso</groupId>
+    <groupId>com.majbah.sso</groupId>
     <artifactId>auth-spi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>auth-spi</name>

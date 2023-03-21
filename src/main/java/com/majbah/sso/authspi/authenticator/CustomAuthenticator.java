@@ -1,42 +1,29 @@
-package com.dsi.ieims.sso.authspi.authenticator;
+package com.majbah.sso.authspi.authenticator;
 
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.adapters.spi.AuthenticationError;
-import org.keycloak.adapters.spi.HttpFacade;
+
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.RequiredActionFactory;
 import org.keycloak.events.Details;
 import org.keycloak.events.EventType;
-import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserCredentialManager;
-import org.keycloak.models.UserCredentialModel;
-import org.keycloak.models.UserManager;
+
 import org.keycloak.models.UserModel;
-import org.keycloak.models.UserSessionModel;
-import org.keycloak.models.utils.KeycloakModelUtils;
-import org.keycloak.sessions.AuthenticationSessionModel;
-import org.keycloak.storage.UserStorageManager;
-import org.keycloak.storage.user.UserLookupProvider;
-import org.keycloak.storage.user.UserQueryProvider;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
-import javax.naming.AuthenticationException;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
-@Slf4j public class IEIMSAuthenticator implements Authenticator {
+@Slf4j public class CustomAuthenticator implements Authenticator {
 
     @Override public void authenticate(AuthenticationFlowContext authenticationFlowContext) {
+
+
         if (!hasValidJwt(authenticationFlowContext)) {
             authenticationFlowContext.failure(AuthenticationFlowError.ACCESS_DENIED);
             return;
@@ -120,11 +107,11 @@ import java.util.List;
         boolean result = jwt != null;
         if (result) {
             RestTemplate restTemplate = new RestTemplate();
-            String resourceUrl = "https://login.ipemis.qa.innovatorslab.net/login";
+            String resourceUrl = "https://login.test.net/login"; //your logic here to validate jwt
             ResponseEntity<String> response = restTemplate.getForEntity(resourceUrl, String.class);
             result = false;
             if (response.getStatusCode().equals(HttpStatus.OK)) {
-                log.error("auth ok");
+                log.info("auth ok");
                 result = true;
             }
         }

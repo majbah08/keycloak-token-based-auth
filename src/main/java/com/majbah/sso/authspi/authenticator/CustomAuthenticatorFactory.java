@@ -1,4 +1,4 @@
-package com.dsi.ieims.sso.authspi.authenticator;
+package com.majbah.sso.authspi.authenticator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.Config;
@@ -13,14 +13,14 @@ import org.keycloak.provider.ProviderConfigProperty;
 import java.util.List;
 
 @Slf4j
-public class IEIMSAuthenticatorFactory implements AuthenticatorFactory,
+public class CustomAuthenticatorFactory implements AuthenticatorFactory,
         ConfigurableAuthenticatorFactory {
 
-    public static final String PROVIDER_ID = "ieims-authenticator";
-    private static final IEIMSAuthenticator SINGLETON = new IEIMSAuthenticator();
+    public static final String PROVIDER_ID = "custom-authenticator";
+    private static final CustomAuthenticator SINGLETON = new CustomAuthenticator();
 
     @Override public String getDisplayType() {
-        return "IEIMS Authenticator";
+        return "Custom Authenticator";
     }
 
     @Override public String getReferenceCategory() {

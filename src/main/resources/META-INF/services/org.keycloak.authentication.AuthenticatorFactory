@@ -1,1 +1,1 @@
-com.dsi.ieims.sso.authspi.authenticator.IEIMSAuthenticatorFactory
+com.majbah.sso.authspi.authenticator.CustomAuthenticatorFactory
