@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-services</artifactId>
-            <version>18.0.0</version>
+            <version>23.0.1</version>
             <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-spring-boot-starter -->
