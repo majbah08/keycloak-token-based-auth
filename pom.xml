@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-server-spi</artifactId>
-            <version>18.0.0</version>
+            <version>19.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
